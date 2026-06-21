@@ -1260,9 +1260,9 @@ function setActiveTab(tab){
   tabbarIndicator.style.transform = `translateX(${idx * 100}%)`;
 }
 
-function fadeInPage(el){
+function fadeInPage(el, displayValue){
   el.style.opacity = '0';
-  el.style.display = '';
+  el.style.display = displayValue || 'block';
   requestAnimationFrame(() => {
     el.style.transition = 'opacity .18s ease';
     el.style.opacity = '1';
