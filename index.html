@@ -6,6 +6,7 @@
 <title>End of Day Report — NAMA YOSO</title>
 <link rel="icon" type="image/png" href="data:image/png;base64,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">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
@@ -70,7 +71,7 @@
   .tabbar-btn.active{color:#fff;}
   .tabbar-btn.active svg{opacity:1;}
   .tabbar-indicator{
-    position:absolute;bottom:0;left:0;height:3px;width:33.333%;
+    position:absolute;bottom:0;left:0;height:3px;width:50%;
     background:var(--gold);border-radius:2px 2px 0 0;
     transition:transform .25s cubic-bezier(.4,0,.2,1);
   }
@@ -365,6 +366,12 @@
     color:var(--ov-gold);font-weight:700;font-size:.8rem;cursor:pointer;
   }
   .cc-top-controls button:hover{background:var(--ov-gold);color:var(--ov-bg);}
+  .cc-download-btn{
+    background:var(--ov-gold) !important;color:var(--ov-bg) !important;
+    font-weight:800 !important;box-shadow:0 2px 8px rgba(212,175,106,.25);
+  }
+  .cc-download-btn:hover{background:#e0bd7c !important;}
+  .cc-download-btn:disabled{opacity:.6;cursor:wait;}
   .live-dot{display:inline-flex;align-items:center;gap:6px;font-size:.72rem;color:var(--ov-green);font-weight:700;letter-spacing:.5px;}
   .live-dot .dot{width:7px;height:7px;border-radius:50%;background:var(--ov-green);box-shadow:0 0 0 0 rgba(63,168,107,.7);animation:pulse-dot 2s infinite;}
   @keyframes pulse-dot{0%{box-shadow:0 0 0 0 rgba(63,168,107,.55);}70%{box-shadow:0 0 0 7px rgba(63,168,107,0);}100%{box-shadow:0 0 0 0 rgba(63,168,107,0);}}
@@ -438,6 +445,36 @@
 
   /* ---- LEGEND ---- */
   .cc-legend{list-style:none;margin:10px 0 0;padding:0;font-size:.79rem;}
+
+  /* ---- Brand pages ---- */
+  .cc-brand-cards{display:grid;grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));gap:12px;}
+  .cc-brand-card{
+    background:var(--ov-panel2);border:1px solid var(--ov-border);border-radius:11px;
+    padding:16px 14px;cursor:pointer;transition:border-color .15s ease, transform .12s ease;
+    text-align:left;
+  }
+  .cc-brand-card:hover{border-color:var(--ov-violet);transform:translateY(-1px);}
+  .cc-brand-card.active{border-color:var(--ov-violet);background:rgba(124,140,248,.08);}
+  .cc-brand-card .bc-dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-bottom:8px;}
+  .cc-brand-card .bc-name{display:block;font-size:.88rem;font-weight:700;color:#fff;margin-bottom:3px;}
+  .cc-brand-card .bc-total{display:block;font-size:.76rem;color:var(--ov-muted);}
+
+  .cc-brand-detail-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:14px;}
+  .cc-brand-detail-head h2{margin:0;font-size:1.25rem;font-weight:800;color:#fff;}
+  .cc-brand-detail-sub{font-size:.78rem;color:var(--ov-muted);}
+
+  .cc-hero{
+    display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:1px;
+    background:var(--ov-border);border-radius:14px;overflow:hidden;
+    border:1px solid var(--ov-border);
+  }
+  .cc-hero-cell{background:var(--ov-panel);padding:18px 20px;}
+  .cc-hero-cell.primary{background:linear-gradient(135deg,#1a2747,var(--ov-panel));}
+  .cc-hero-cell .hl{font-size:.68rem;text-transform:uppercase;letter-spacing:1.3px;color:var(--ov-muted);font-weight:700;margin-bottom:7px;}
+  .cc-hero-cell .hv{font-size:1.7rem;font-weight:800;color:var(--ov-cream);}
+  .cc-hero-cell.primary .hv{font-size:2.1rem;color:var(--ov-violet);}
+  .cc-hero-cell .hsub{font-size:.74rem;color:var(--ov-muted);margin-top:5px;}
+  @media (max-width:760px){ .cc-hero{grid-template-columns:1fr 1fr;} }
   .cc-legend li{display:flex;justify-content:space-between;padding:7px 8px;border-radius:7px;cursor:pointer;}
   .cc-legend li:hover{background:rgba(255,255,255,.04);}
   .cc-legend .ln{display:flex;align-items:center;gap:8px;color:var(--ov-cream);}
@@ -497,10 +534,6 @@
   <button class="tabbar-btn active" type="button" id="tabDaily">
     <svg viewBox="0 0 24 24" width="16" height="16"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
     <span>Daily entry</span>
-  </button>
-  <button class="tabbar-btn" type="button" id="tabMonthly">
-    <svg viewBox="0 0 24 24" width="16" height="16"><rect x="3" y="4" width="18" height="17" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M3 9h18M8 2v4M16 2v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-    <span>Monthly total</span>
   </button>
   <button class="tabbar-btn" type="button" id="tabOverview">
     <svg viewBox="0 0 24 24" width="16" height="16"><path d="M3 13h4v8H3v-8zm7-9h4v17h-4V4zm7 5h4v12h-4V9z" fill="currentColor"/></svg>
@@ -776,6 +809,7 @@
           <input type="date" id="ovCustomFrom" style="display:none;">
           <input type="date" id="ovCustomTo" style="display:none;">
           <button id="ovRefreshBtn" type="button">↻ Refresh</button>
+          <button id="downloadReportBtn" type="button" class="cc-download-btn">⬇ Download report</button>
         </div>
       </div>
 
@@ -898,9 +932,52 @@
 
         <!-- BRANDS SECTION -->
         <section class="cc-section" data-section-panel="brands" style="display:none;">
+          <div class="cc-panel" style="margin-bottom:18px;">
+            <div class="cc-panel-head"><h3>Brand pages</h3><span class="cc-panel-sub">Select a brand for its own dedicated view</span></div>
+            <div class="cc-brand-cards" id="brandCards"></div>
+          </div>
+
+          <div id="brandPageDetail" style="display:none;">
+            <div class="cc-brand-detail-head">
+              <h2 id="brandDetailName">Brand</h2>
+              <span class="cc-brand-detail-sub" id="brandDetailSub">Filtered to this brand only · same date range as above</span>
+            </div>
+
+            <div class="cc-hero" style="margin-bottom:20px;">
+              <div class="cc-hero-cell primary">
+                <div class="hl">Brand sales (period)</div>
+                <div class="hv" id="brandKpiSales">0</div>
+                <div class="hsub" id="brandKpiShare">— of total sales</div>
+              </div>
+              <div class="cc-hero-cell">
+                <div class="hl">Food</div>
+                <div class="hv" id="brandKpiFood">0</div>
+              </div>
+              <div class="cc-hero-cell">
+                <div class="hl">Drinks</div>
+                <div class="hv" id="brandKpiDrinks">0</div>
+              </div>
+              <div class="cc-hero-cell">
+                <div class="hl">Desserts</div>
+                <div class="hv" id="brandKpiDesserts">0</div>
+              </div>
+            </div>
+
+            <div class="cc-grid2">
+              <div class="cc-panel">
+                <div class="cc-panel-head"><h3>Brand sales trend</h3><span class="cc-panel-sub">Daily sales for this brand</span></div>
+                <div class="cc-chart-wrap tall"><canvas id="brandTrendChart"></canvas></div>
+              </div>
+              <div class="cc-panel">
+                <div class="cc-panel-head"><h3>Food / Drinks / Desserts split</h3><span class="cc-panel-sub">Category mix for this brand</span></div>
+                <div class="cc-chart-wrap tall"><canvas id="brandCategoryChart"></canvas></div>
+              </div>
+            </div>
+          </div>
+
           <div class="cc-grid2">
             <div class="cc-panel">
-              <div class="cc-panel-head"><h3>Sales by brand</h3><span class="cc-panel-sub">Share of total sales — click to filter</span></div>
+              <div class="cc-panel-head"><h3>Sales by brand</h3><span class="cc-panel-sub">Share of total sales — click to open that brand's page</span></div>
               <div class="cc-chart-wrap tall"><canvas id="brandChart"></canvas></div>
               <ul class="cc-legend" id="brandLegend"></ul>
             </div>
@@ -1167,7 +1244,6 @@ recalcAll();
 
 /* ---------------- TAB SWITCHING ---------------- */
 const tabDaily = document.getElementById('tabDaily');
-const tabMonthly = document.getElementById('tabMonthly');
 const tabOverview = document.getElementById('tabOverview');
 const pageDaily = document.getElementById('page-daily');
 const pageOverview = document.getElementById('page-overview');
@@ -1175,7 +1251,7 @@ const dailyFooterActions = document.getElementById('dailyFooterActions');
 const statusMsgEl = document.getElementById('statusMsg');
 const pdfBtnEl = document.getElementById('pdfBtn');
 const tabbarIndicator = document.getElementById('tabbarIndicator');
-const allTabs = [tabDaily, tabMonthly, tabOverview];
+const allTabs = [tabDaily, tabOverview];
 
 function setActiveTab(tab){
   allTabs.forEach(b => b.classList.remove('active'));
@@ -1215,17 +1291,6 @@ function showOverviewPage(){
 
 tabDaily.addEventListener('click', showDailyPage);
 tabOverview.addEventListener('click', showOverviewPage);
-tabMonthly.addEventListener('click', () => {
-  setActiveTab(tabMonthly);
-  document.getElementById('reportRoot').style.display = 'none';
-  fadeInPage(pageOverview);
-  dailyFooterActions.style.display = 'none';
-  statusMsgEl.style.display = 'none';
-  pdfBtnEl.style.display = 'none';
-  loadOverviewData();
-  document.getElementById('ovRangeSelect').value = 'thisMonth';
-  document.getElementById('ovRangeSelect').dispatchEvent(new Event('change'));
-});
 
 /* ---------------- DATA COLLECTION ---------------- */
 function collectData(){
@@ -1792,6 +1857,7 @@ wireSlicerGroup('slicerOrderType', 'orderType');
 
 document.getElementById('clearSlicersBtn').addEventListener('click', () => {
   slicerState.brand = 'all'; slicerState.day = 'all'; slicerState.orderType = 'all';
+  activeBrandPageKey = null;
   document.querySelectorAll('.cc-pills').forEach(group => {
     group.querySelectorAll('.cc-pill').forEach(b => b.classList.toggle('active', b.dataset.value === 'all'));
   });
@@ -1892,6 +1958,7 @@ function renderOverview(){
   renderDistributionChart(rows);
   renderMoMChart();
   renderBrandChart(rows);
+  renderBrandDetailPage(rows, from, to);
   renderOrderTypeChart(rows);
   renderDiscountChart(rows);
   renderChecks(rows, from, to);
@@ -2198,10 +2265,7 @@ function renderBrandChart(rows){
       onClick:(evt, elements) => {
         if (elements.length > 0){
           const idx = elements[0].index;
-          const key = BRAND_KEYS[idx].key;
-          slicerState.brand = slicerState.brand === key ? 'all' : key;
-          document.getElementById('slicerBrand').querySelectorAll('.cc-pill').forEach(b => b.classList.toggle('active', b.dataset.value === slicerState.brand));
-          renderOverview();
+          openBrandPage(BRAND_KEYS[idx].key);
         }
       }
     }
@@ -2211,12 +2275,94 @@ function renderBrandChart(rows){
     return `<li data-brand-key="${BRAND_KEYS[i].key}"><span class="ln"><span class="dot2" style="background:${BRAND_COLORS[i]}"></span>${n}</span><span class="lv">${ovFmt(totals[i])} <span style="color:var(--ov-muted);font-weight:400;">(${pct}%)</span></span></li>`;
   }).join('');
   document.getElementById('brandLegend').querySelectorAll('li').forEach(li => {
-    li.addEventListener('click', () => {
-      const key = li.dataset.brandKey;
-      slicerState.brand = slicerState.brand === key ? 'all' : key;
-      document.getElementById('slicerBrand').querySelectorAll('.cc-pill').forEach(b => b.classList.toggle('active', b.dataset.value === slicerState.brand));
-      renderOverview();
+    li.addEventListener('click', () => openBrandPage(li.dataset.brandKey));
+  });
+
+  renderBrandCards(rows, names, totals, grandTotal);
+}
+
+/* ---- Dedicated brand page ---- */
+let activeBrandPageKey = null;
+
+function renderBrandCards(rows, names, totals, grandTotal){
+  const container = document.getElementById('brandCards');
+  container.innerHTML = BRAND_KEYS.map((b,i) => {
+    if (totals[i] === 0 && b.key === 'brandOther') return '';
+    const pct = grandTotal > 0 ? ((totals[i]/grandTotal)*100).toFixed(0) : 0;
+    const isActive = activeBrandPageKey === b.key;
+    return `<button type="button" class="cc-brand-card ${isActive?'active':''}" data-brand-key="${b.key}">
+      <span class="bc-dot" style="background:${BRAND_COLORS[i]}"></span>
+      <span class="bc-name">${names[i]}</span>
+      <span class="bc-total">${ovFmt(totals[i])} · ${pct}%</span>
+    </button>`;
+  }).join('');
+  container.querySelectorAll('.cc-brand-card').forEach(card => {
+    card.addEventListener('click', () => openBrandPage(card.dataset.brandKey));
+  });
+}
+
+function openBrandPage(brandKey){
+  activeBrandPageKey = activeBrandPageKey === brandKey ? null : brandKey;
+  if (activeBrandPageKey){
+    slicerState.brand = brandKey;
+    document.getElementById('slicerBrand').querySelectorAll('.cc-pill').forEach(b => b.classList.toggle('active', b.dataset.value === brandKey));
+  }
+  renderOverview();
+  if (activeBrandPageKey){
+    requestAnimationFrame(() => {
+      document.getElementById('brandPageDetail').scrollIntoView({behavior:'smooth', block:'start'});
     });
+  }
+}
+
+function renderBrandDetailPage(rows, from, to){
+  const detailEl = document.getElementById('brandPageDetail');
+  if (!activeBrandPageKey){
+    detailEl.style.display = 'none';
+    return;
+  }
+  detailEl.style.display = 'block';
+
+  const b = BRAND_KEYS.find(x => x.key === activeBrandPageKey);
+  const name = activeBrandPageKey === 'brandOther' ? (rows.find(r=>r.brandOther_name)?.brandOther_name || b.fallback) : b.fallback;
+  document.getElementById('brandDetailName').textContent = name;
+
+  const food = rows.reduce((s,r) => s + num(r[`${activeBrandPageKey}_food`]), 0);
+  const drinks = rows.reduce((s,r) => s + num(r[`${activeBrandPageKey}_drinks`]), 0);
+  const desserts = rows.reduce((s,r) => s + num(r[`${activeBrandPageKey}_desserts`]), 0);
+  const brandTotal = food + drinks + desserts;
+  const allBrandsTotal = BRAND_KEYS.reduce((sum, bb) => sum + rows.reduce((s,r) => s + num(r[`${bb.key}_food`]) + num(r[`${bb.key}_drinks`]) + num(r[`${bb.key}_desserts`]), 0), 0);
+  const sharePct = allBrandsTotal > 0 ? ((brandTotal/allBrandsTotal)*100).toFixed(0) : 0;
+
+  document.getElementById('brandKpiSales').textContent = ovFmt(brandTotal);
+  document.getElementById('brandKpiShare').textContent = `${sharePct}% of total sales`;
+  document.getElementById('brandKpiFood').textContent = ovFmt(food);
+  document.getElementById('brandKpiDrinks').textContent = ovFmt(drinks);
+  document.getElementById('brandKpiDesserts').textContent = ovFmt(desserts);
+  document.getElementById('brandDetailSub').textContent = `Filtered to ${name} only · ${ovDateLabel(from, to)}`;
+
+  // Brand trend chart
+  destroyChart('brandTrend');
+  const labels = rows.map(r => r.date);
+  const data = rows.map(r => num(r[`${activeBrandPageKey}_food`]) + num(r[`${activeBrandPageKey}_drinks`]) + num(r[`${activeBrandPageKey}_desserts`]));
+  const ctxT = document.getElementById('brandTrendChart').getContext('2d');
+  const grad = ctxT.createLinearGradient(0,0,0,260);
+  grad.addColorStop(0, 'rgba(124,140,248,0.35)');
+  grad.addColorStop(1, 'rgba(124,140,248,0)');
+  ovCharts.brandTrend = new Chart(ctxT, {
+    type:'line',
+    data:{ labels, datasets:[{ data, borderColor:'#7c8cf8', backgroundColor:grad, fill:true, tension:.3,
+      pointRadius:rows.length > 25 ? 0 : 3, pointBackgroundColor:'#7c8cf8', borderWidth:2 }] },
+    options: chartDefaults()
+  });
+
+  // Category split chart
+  destroyChart('brandCategory');
+  const ctxC = document.getElementById('brandCategoryChart').getContext('2d');
+  ovCharts.brandCategory = new Chart(ctxC, {
+    type:'doughnut',
+    data:{ labels:['Food','Drinks','Desserts'], datasets:[{ data:[food,drinks,desserts], backgroundColor:['#d4af6a','#3fa86b','#e0685c'], borderColor:'#121b2e', borderWidth:2 }] },
+    options:{ plugins:{legend:{position:'bottom', labels:{color:'#eef1f7', font:{size:11}, padding:14}}}, maintainAspectRatio:false, responsive:true, cutout:'58%' }
   });
 }
 
@@ -2352,6 +2498,278 @@ function renderDataTable(rows){
       <td>${ovFmt(num(r.discount_total))}</td>
     </tr>`;
   }).join('');
+}
+
+/* ================= FORMAL PDF REPORT GENERATOR ================= */
+/* Builds a real multi-page business document (not a screenshot) using
+   jsPDF + autoTable: cover page, KPI summary, brand table, order-type
+   table, AI insights, and the full daily entries table — respecting
+   whatever date range and slicers are currently active. */
+
+function activeFilterSummary(){
+  const parts = [];
+  const rangeLabels = {thisMonth:'This month', lastMonth:'Last month', last30:'Last 30 days', all:'All time', custom:'Custom range'};
+  parts.push(rangeLabels[ovRangeSelect.value] || 'This month');
+  if (slicerState.brand !== 'all'){
+    const b = BRAND_KEYS.find(x => x.key === slicerState.brand);
+    const name = slicerState.brand === 'brandOther' ? (OV_ROWS.find(r=>r.brandOther_name)?.brandOther_name || 'Other') : (b ? b.fallback : slicerState.brand);
+    parts.push(`Brand: ${name}`);
+  }
+  if (slicerState.day !== 'all'){
+    const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    parts.push(`Day: ${dayNames[Number(slicerState.day)]}`);
+  }
+  if (slicerState.orderType !== 'all'){
+    const otNames = {dinein:'Dine in', pickup:'Pickup', deliveroo:'Deliveroo'};
+    parts.push(`Order type: ${otNames[slicerState.orderType]}`);
+  }
+  return parts.join('  ·  ');
+}
+
+document.getElementById('downloadReportBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('downloadReportBtn');
+  const original = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = '⬇ Building report…';
+
+  try {
+    const {from, to} = ovGetDateRange();
+    let rows = OV_ROWS.filter(r => ovInRange(r.date, from, to));
+    rows = applySlicers(rows);
+
+    if (rows.length === 0){
+      alert('No data in the current filtered view to include in a report. Adjust your filters and try again.');
+      return;
+    }
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('p', 'pt', 'a4');
+    const pageW = doc.internal.pageSize.getWidth();
+    const pageH = doc.internal.pageSize.getHeight();
+    const margin = 48;
+    const navy = [15, 41, 66];
+    const gold = [201, 163, 92];
+    const muted = [107, 114, 128];
+    const ink = [28, 33, 40];
+
+    const periodLabel = ovDateLabel(from, to);
+    const filterLabel = activeFilterSummary();
+    const generatedAt = new Date().toLocaleString('en-US', {dateStyle:'medium', timeStyle:'short'});
+
+    // ---------- COVER PAGE ----------
+    doc.setFillColor(...navy);
+    doc.rect(0, 0, pageW, pageH, 'F');
+    doc.setDrawColor(...gold);
+    doc.setLineWidth(2);
+    doc.line(margin, 150, pageW - margin, 150);
+
+    doc.setTextColor(...gold);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.text('NAMA YOSO', margin, 120);
+
+    doc.setTextColor(255,255,255);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(28);
+    doc.text('Sales Performance Report', margin, 200);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(13);
+    doc.setTextColor(220, 228, 238);
+    doc.text(periodLabel, margin, 232);
+
+    if (filterLabel && filterLabel !== (({thisMonth:'This month',lastMonth:'Last month',last30:'Last 30 days',all:'All time',custom:'Custom range'})[ovRangeSelect.value])){
+      doc.setFontSize(10);
+      doc.setTextColor(...gold);
+      doc.text(`Filters applied: ${filterLabel}`, margin, 252);
+    }
+
+    doc.setFontSize(9);
+    doc.setTextColor(150, 165, 185);
+    doc.text(`Generated ${generatedAt}`, margin, pageH - 60);
+    doc.text(`${rows.length} day${rows.length!==1?'s':''} of recorded sales data included`, margin, pageH - 46);
+
+    // ---------- PAGE 2: KPI SUMMARY ----------
+    doc.addPage();
+    let y = addPageHeader(doc, 'Summary', periodLabel, margin, navy, gold, muted);
+
+    let totalSales = 0, totalCovers = 0, totalChecks = 0, totalDiscounts = 0;
+    rows.forEach(r => {
+      totalSales += rowSales(r);
+      totalCovers += num(r.all_day_covers);
+      totalChecks += num(r.all_day_checks);
+      totalDiscounts += num(r.discount_total);
+    });
+    const avgCheck = totalChecks > 0 ? totalSales/totalChecks : 0;
+
+    const kpiData = [
+      ['Total sales', ovFmt(totalSales)],
+      ['Total covers', ovFmt(totalCovers)],
+      ['Total checks', ovFmt(totalChecks)],
+      ['Average spend per check', ovFmt2(avgCheck)],
+      ['Total discounts given', ovFmt(totalDiscounts)],
+      ['Days included', String(rows.length)]
+    ];
+    doc.autoTable({
+      startY: y, margin: {left: margin, right: margin},
+      head: [['Metric', 'Value']],
+      body: kpiData,
+      theme: 'plain',
+      headStyles: { fillColor: navy, textColor: 255, fontStyle: 'bold', fontSize: 10 },
+      bodyStyles: { fontSize: 10, textColor: ink, cellPadding: {top:7, bottom:7, left:6, right:6} },
+      alternateRowStyles: { fillColor: [247, 245, 240] },
+      columnStyles: { 1: { halign: 'right', fontStyle: 'bold' } }
+    });
+    y = doc.lastAutoTable.finalY + 30;
+
+    // ---------- BRAND BREAKDOWN ----------
+    y = addSectionTitle(doc, 'Sales by brand', margin, y, navy);
+    const brandRows = BRAND_KEYS.map(b => {
+      const food = rows.reduce((s,r) => s + num(r[`${b.key}_food`]), 0);
+      const drinks = rows.reduce((s,r) => s + num(r[`${b.key}_drinks`]), 0);
+      const desserts = rows.reduce((s,r) => s + num(r[`${b.key}_desserts`]), 0);
+      const total = food + drinks + desserts;
+      const name = b.key === 'brandOther' ? (rows.find(r=>r.brandOther_name)?.brandOther_name || null) : b.fallback;
+      if (!name || total === 0) return null;
+      return [name, ovFmt(food), ovFmt(drinks), ovFmt(desserts), ovFmt(total)];
+    }).filter(Boolean);
+
+    doc.autoTable({
+      startY: y, margin: {left: margin, right: margin},
+      head: [['Brand', 'Food', 'Drinks', 'Desserts', 'Total']],
+      body: brandRows,
+      theme: 'plain',
+      headStyles: { fillColor: navy, textColor: 255, fontStyle: 'bold', fontSize: 9 },
+      bodyStyles: { fontSize: 9, textColor: ink, cellPadding: {top:6, bottom:6, left:6, right:6} },
+      alternateRowStyles: { fillColor: [247, 245, 240] },
+      columnStyles: { 1:{halign:'right'}, 2:{halign:'right'}, 3:{halign:'right'}, 4:{halign:'right', fontStyle:'bold'} }
+    });
+    y = doc.lastAutoTable.finalY + 30;
+
+    // ---------- ORDER TYPE BREAKDOWN ----------
+    if (y > pageH - 160){ doc.addPage(); y = addPageHeader(doc, 'Order type & insights', periodLabel, margin, navy, gold, muted); }
+    y = addSectionTitle(doc, 'Sales by order type', margin, y, navy);
+    const otTotals = {dinein:0, pickup:0, deliveroo:0};
+    rows.forEach(r => { SERVICE_KEYS.forEach(s => { OT_KEYS.forEach(t => { otTotals[t] += num(r[`${s}_${t}_sales`]); }); }); });
+    const otGrand = otTotals.dinein + otTotals.pickup + otTotals.deliveroo;
+    const otRows = [
+      ['Dine in', ovFmt(otTotals.dinein), otGrand>0?((otTotals.dinein/otGrand)*100).toFixed(1)+'%':'0%'],
+      ['Pickup', ovFmt(otTotals.pickup), otGrand>0?((otTotals.pickup/otGrand)*100).toFixed(1)+'%':'0%'],
+      ['Deliveroo', ovFmt(otTotals.deliveroo), otGrand>0?((otTotals.deliveroo/otGrand)*100).toFixed(1)+'%':'0%']
+    ];
+    doc.autoTable({
+      startY: y, margin: {left: margin, right: margin},
+      head: [['Order type', 'Sales', 'Share']],
+      body: otRows,
+      theme: 'plain',
+      headStyles: { fillColor: navy, textColor: 255, fontStyle: 'bold', fontSize: 9 },
+      bodyStyles: { fontSize: 9, textColor: ink, cellPadding: {top:6, bottom:6, left:6, right:6} },
+      alternateRowStyles: { fillColor: [247, 245, 240] },
+      columnStyles: { 1:{halign:'right'}, 2:{halign:'right'} }
+    });
+    y = doc.lastAutoTable.finalY + 30;
+
+    // ---------- AI INSIGHTS (as plain text, stripped of HTML) ----------
+    if (y > pageH - 140){ doc.addPage(); y = addPageHeader(doc, 'Insights', periodLabel, margin, navy, gold, muted); }
+    y = addSectionTitle(doc, 'Key observations', margin, y, navy);
+    const insightEls = document.querySelectorAll('#insightsList .cc-insight-item span:last-child');
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9.5);
+    doc.setTextColor(...ink);
+    insightEls.forEach(el => {
+      const text = el.textContent.trim();
+      if (!text) return;
+      const lines = doc.splitTextToSize('•  ' + text, pageW - margin*2 - 10);
+      if (y + lines.length*13 > pageH - 60){ doc.addPage(); y = addPageHeader(doc, 'Insights (cont.)', periodLabel, margin, navy, gold, muted); }
+      doc.text(lines, margin, y);
+      y += lines.length*13 + 6;
+    });
+    y += 16;
+
+    // ---------- DAILY ENTRIES TABLE ----------
+    doc.addPage();
+    y = addPageHeader(doc, 'Daily entries', periodLabel, margin, navy, gold, muted);
+    const sortedRows = [...rows].sort((a,b) => String(a.date).localeCompare(String(b.date)));
+    const dailyTableRows = sortedRows.map(r => {
+      const sales = rowSales(r);
+      const checks = num(r.all_day_checks);
+      const isLocked = String(r.locked).toUpperCase() === 'TRUE';
+      return [
+        r.date,
+        r.staff_name || r.created_by || '—',
+        isLocked ? 'Locked' : 'Unlocked',
+        ovFmt(sales),
+        String(num(r.all_day_covers)),
+        ovFmt2(checks>0?sales/checks:0),
+        ovFmt(num(r.discount_total))
+      ];
+    });
+    doc.autoTable({
+      startY: y, margin: {left: margin, right: margin},
+      head: [['Date','Submitted by','Status','Sales','Covers','Avg/check','Discounts']],
+      body: dailyTableRows,
+      theme: 'plain',
+      headStyles: { fillColor: navy, textColor: 255, fontStyle: 'bold', fontSize: 8.5 },
+      bodyStyles: { fontSize: 8.5, textColor: ink, cellPadding: {top:5, bottom:5, left:5, right:5} },
+      alternateRowStyles: { fillColor: [247, 245, 240] },
+      columnStyles: { 3:{halign:'right'}, 4:{halign:'right'}, 5:{halign:'right'}, 6:{halign:'right'} },
+      didDrawPage: () => { addFooterToCurrentPage(doc, margin, muted); }
+    });
+
+    // ---------- FOOTER + PAGE NUMBERS ON EVERY PAGE ----------
+    const pageCount = doc.internal.getNumberOfPages();
+    for (let i = 2; i <= pageCount; i++){
+      doc.setPage(i);
+      addFooterToCurrentPage(doc, margin, muted);
+      doc.setFontSize(8);
+      doc.setTextColor(...muted);
+      doc.text(`Page ${i-1} of ${pageCount-1}`, pageW - margin, pageH - 24, {align:'right'});
+    }
+
+    const dateStamp = formatLocalDate(new Date());
+    doc.save(`NamaYoso_Sales_Report_${dateStamp}.pdf`);
+
+  } catch (err) {
+    console.error(err);
+    alert('Could not generate the report. Please try again.');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = original;
+  }
+});
+
+function addPageHeader(doc, title, periodLabel, margin, navy, gold, muted){
+  const pageW = doc.internal.pageSize.getWidth();
+  doc.setFillColor(...navy);
+  doc.rect(0, 0, pageW, 56, 'F');
+  doc.setTextColor(255,255,255);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(13);
+  doc.text(title, margin, 35);
+  doc.setTextColor(...gold);
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(9);
+  doc.text(`NAMA YOSO  ·  ${periodLabel}`, pageW - margin, 35, {align:'right'});
+  return 90;
+}
+
+function addSectionTitle(doc, title, margin, y, navy){
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(12);
+  doc.setTextColor(...navy);
+  doc.text(title, margin, y);
+  return y + 18;
+}
+
+function addFooterToCurrentPage(doc, margin, muted){
+  const pageW = doc.internal.pageSize.getWidth();
+  const pageH = doc.internal.pageSize.getHeight();
+  doc.setDrawColor(225, 221, 208);
+  doc.setLineWidth(0.5);
+  doc.line(margin, pageH - 36, pageW - margin, pageH - 36);
+  doc.setFontSize(8);
+  doc.setTextColor(...muted);
+  doc.text('Nama Yoso — Internal sales report', margin, pageH - 24);
 }
 </script>
 </body>
