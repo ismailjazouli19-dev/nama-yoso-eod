@@ -6,6 +6,7 @@
 <title>End of Day Report — NAMA YOSO</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
   :root{
     --navy:#0f2942;
@@ -161,6 +162,112 @@
     .ot-grid, .brand-grid{grid-template-columns:1fr;}
     .summary-grid, .discount-grid, .field-pair{grid-template-columns:1fr;}
   }
+
+  /* ================= OVERVIEW PAGE (shareholder dashboard) ================= */
+  :root{
+    --ov-bg:#0a1c30;
+    --ov-panel:#102844;
+    --ov-panel2:#0d2238;
+    --ov-border:#21436a;
+    --ov-gold:#d4af6a;
+    --ov-cream:#f3ede0;
+    --ov-muted:#84a0c2;
+    --ov-green:#3fa86b;
+    --ov-red:#d4675c;
+    --ov-blue:#6f9bd1;
+    --ov-grid:#1a3454;
+  }
+  #page-overview{
+    display:none;
+    background:radial-gradient(ellipse at 20% 0%, #14315272 0%, var(--ov-bg) 55%);
+    color:var(--ov-cream);
+    min-height:100vh;
+    padding-bottom:60px;
+  }
+  #page-overview .ov-wrap{max-width:1180px;margin:0 auto;padding:0 18px;}
+
+  .ov-top{
+    padding:26px 4px 18px;display:flex;justify-content:space-between;align-items:flex-end;
+    flex-wrap:wrap;gap:14px;border-bottom:1px solid var(--ov-border);margin-bottom:22px;
+  }
+  .ov-top .eyebrow{font-size:.68rem;letter-spacing:3px;text-transform:uppercase;color:var(--ov-gold);font-weight:700;}
+  .ov-top h2{margin:4px 0 0;font-size:1.5rem;font-weight:700;color:#fff;}
+  .ov-controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+  .ov-controls select, .ov-controls input{
+    padding:9px 12px;border-radius:8px;border:1px solid var(--ov-border);
+    background:var(--ov-panel);color:var(--ov-cream);font-size:.83rem;
+  }
+  .ov-controls button{
+    padding:9px 15px;border-radius:8px;border:1px solid var(--ov-gold);background:transparent;
+    color:var(--ov-gold);font-weight:700;font-size:.8rem;cursor:pointer;
+  }
+  .ov-controls button:hover{background:var(--ov-gold);color:var(--ov-bg);}
+  .live-dot{display:inline-flex;align-items:center;gap:6px;font-size:.72rem;color:var(--ov-green);font-weight:700;letter-spacing:.5px;}
+  .live-dot .dot{width:7px;height:7px;border-radius:50%;background:var(--ov-green);box-shadow:0 0 0 0 rgba(63,168,107,.7);animation:pulse-dot 2s infinite;}
+  @keyframes pulse-dot{0%{box-shadow:0 0 0 0 rgba(63,168,107,.55);}70%{box-shadow:0 0 0 7px rgba(63,168,107,0);}100%{box-shadow:0 0 0 0 rgba(63,168,107,0);}}
+
+  .ov-hero{
+    display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:1px;
+    background:var(--ov-border);border-radius:14px;overflow:hidden;margin-bottom:20px;
+    border:1px solid var(--ov-border);
+  }
+  .ov-hero-cell{background:var(--ov-panel);padding:20px 22px;}
+  .ov-hero-cell.primary{background:linear-gradient(135deg,#16365c,#0d2238);}
+  .ov-hero-cell .hl{font-size:.68rem;text-transform:uppercase;letter-spacing:1.4px;color:var(--ov-muted);font-weight:700;margin-bottom:8px;}
+  .ov-hero-cell .hv{font-size:1.85rem;font-weight:800;color:var(--ov-cream);line-height:1;}
+  .ov-hero-cell.primary .hv{font-size:2.3rem;color:var(--ov-gold);}
+  .ov-hero-cell .hsub{font-size:.76rem;color:var(--ov-muted);margin-top:6px;}
+  .ov-delta{font-size:.76rem;font-weight:700;margin-top:6px;}
+  .ov-delta.up{color:var(--ov-green);}
+  .ov-delta.down{color:var(--ov-red);}
+
+  .ov-insights{
+    background:linear-gradient(135deg, #16365c 0%, #102844 100%);
+    border:1px solid var(--ov-border);border-radius:14px;padding:18px 22px;margin-bottom:20px;
+  }
+  .ov-insights .ov-ihead{display:flex;align-items:center;gap:9px;margin-bottom:12px;}
+  .ov-insights .ov-ihead .ico{font-size:1.1rem;}
+  .ov-insights h3{margin:0;font-size:.92rem;font-weight:700;color:#fff;}
+  .ov-insights .ov-isub{font-size:.74rem;color:var(--ov-muted);margin:-8px 0 14px 29px;}
+  .ov-insight-list{list-style:none;margin:0;padding:0;display:grid;gap:10px;}
+  .ov-insight-item{
+    display:flex;gap:11px;align-items:flex-start;font-size:.85rem;line-height:1.45;
+    padding:10px 12px;background:rgba(255,255,255,.03);border-radius:9px;border:1px solid rgba(255,255,255,.05);
+  }
+  .ov-insight-item .ibadge{
+    flex-shrink:0;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:.7rem;font-weight:800;margin-top:1px;
+  }
+  .ibadge.good{background:rgba(63,168,107,.18);color:var(--ov-green);}
+  .ibadge.warn{background:rgba(212,103,92,.18);color:var(--ov-red);}
+  .ibadge.info{background:rgba(111,155,209,.18);color:var(--ov-blue);}
+  .ov-insight-item b{color:#fff;}
+
+  .ov-grid2{display:grid;grid-template-columns:1.4fr 1fr;gap:18px;margin-bottom:18px;}
+  .ov-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:18px;}
+  .ov-panel{background:var(--ov-panel);border:1px solid var(--ov-border);border-radius:14px;padding:18px 20px;}
+  .ov-panel h3{margin:0 0 2px;font-size:.92rem;font-weight:700;color:#fff;}
+  .ov-panel .ov-psub{font-size:.74rem;color:var(--ov-muted);margin-bottom:14px;}
+  .ov-chart-wrap{position:relative;height:230px;}
+  .ov-chart-wrap.tall{height:290px;}
+
+  .ov-legend{list-style:none;margin:10px 0 0;padding:0;font-size:.79rem;}
+  .ov-legend li{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--ov-grid);}
+  .ov-legend li:last-child{border-bottom:none;}
+  .ov-legend .ln{display:flex;align-items:center;gap:8px;color:var(--ov-cream);}
+  .ov-legend .dot2{width:9px;height:9px;border-radius:50%;display:inline-block;}
+  .ov-legend .lv{font-weight:700;color:var(--ov-cream);}
+
+  .ov-empty{text-align:center;padding:70px 20px;color:var(--ov-muted);font-size:.9rem;}
+  .ov-empty strong{display:block;color:var(--ov-cream);font-size:1.15rem;margin-bottom:6px;}
+  .ov-loading{text-align:center;padding:90px 20px;color:var(--ov-muted);}
+
+  .ov-footer{text-align:center;color:var(--ov-muted);font-size:.72rem;padding:26px 0 0;}
+
+  @media (max-width:900px){
+    .ov-hero{grid-template-columns:1fr 1fr;}
+    .ov-grid2, .ov-grid3{grid-template-columns:1fr;}
+  }
 </style>
 </head>
 <body>
@@ -172,10 +279,12 @@
   </header>
 
   <div class="tabbar">
-    <button class="active" type="button">Daily entry</button>
-    <button type="button" id="monthlyTabBtn">Monthly total</button>
+    <button class="active" type="button" id="tabDaily">Daily entry</button>
+    <button type="button" id="tabMonthly">Monthly total</button>
+    <button type="button" id="tabOverview">Live overview</button>
   </div>
 
+  <div id="page-daily">
   <div class="field-row">
     <label for="reportDate">Date</label>
     <input type="date" id="reportDate">
@@ -319,13 +428,115 @@
     </div>
   </section>
 
-</div>
+  </div><!-- /page-daily -->
 
-<div class="footer-actions">
+</div><!-- /reportRoot -->
+
+<div class="footer-actions" id="dailyFooterActions">
   <button class="btn-save" id="saveBtn" type="button">💾 Save day</button>
 </div>
 <div class="status-msg" id="statusMsg"></div>
 <div class="link-pdf" id="pdfBtn">⬇ Download day as PDF</div>
+
+<!-- ================= LIVE OVERVIEW PAGE ================= -->
+<div id="page-overview">
+  <div class="ov-wrap">
+
+    <div class="ov-top">
+      <div>
+        <div class="eyebrow">Nama Yoso · Shareholder view</div>
+        <h2>Live overview</h2>
+      </div>
+      <div class="ov-controls">
+        <span class="live-dot"><span class="dot"></span>LIVE</span>
+        <select id="ovRangeSelect">
+          <option value="thisMonth">This month</option>
+          <option value="lastMonth">Last month</option>
+          <option value="last30">Last 30 days</option>
+          <option value="all">All time</option>
+          <option value="custom">Custom range</option>
+        </select>
+        <input type="date" id="ovCustomFrom" style="display:none;">
+        <input type="date" id="ovCustomTo" style="display:none;">
+        <button id="ovRefreshBtn" type="button">↻ Refresh</button>
+      </div>
+    </div>
+
+    <div id="ovLoading" class="ov-loading">Loading live sales data…</div>
+    <div id="ovEmpty" class="ov-empty" style="display:none;">
+      <strong>No entries yet</strong>
+      No daily reports have been saved for this period. This view updates automatically once staff start saving days.
+    </div>
+
+    <div id="ovContent" style="display:none;">
+
+      <div class="ov-hero">
+        <div class="ov-hero-cell primary">
+          <div class="hl">Total sales (period)</div>
+          <div class="hv" id="ovKpiTotalSales">0</div>
+          <div class="hsub" id="ovKpiPeriodLabel">—</div>
+        </div>
+        <div class="ov-hero-cell">
+          <div class="hl">Total covers</div>
+          <div class="hv" id="ovKpiTotalCovers">0</div>
+          <div class="hsub">across period</div>
+        </div>
+        <div class="ov-hero-cell">
+          <div class="hl">Avg / check</div>
+          <div class="hv" id="ovKpiAvgCheck">0</div>
+          <div class="hsub">period average</div>
+        </div>
+        <div class="ov-hero-cell">
+          <div class="hl">vs previous period</div>
+          <div class="hv" id="ovKpiDeltaPct">—</div>
+          <div class="hsub" id="ovKpiDeltaLabel">no comparison data</div>
+        </div>
+      </div>
+
+      <div class="ov-insights">
+        <div class="ov-ihead"><span class="ico">✨</span><h3>AI-generated insights</h3></div>
+        <p class="ov-isub">Automatically flagged from the selected period's numbers</p>
+        <ul class="ov-insight-list" id="ovInsightsList"></ul>
+      </div>
+
+      <div class="ov-grid2">
+        <div class="ov-panel">
+          <h3>Daily sales trend</h3>
+          <div class="ov-psub">Total sales per day across the selected period</div>
+          <div class="ov-chart-wrap tall"><canvas id="ovTrendChart"></canvas></div>
+        </div>
+        <div class="ov-panel">
+          <h3>This month vs last month</h3>
+          <div class="ov-psub">Total sales comparison</div>
+          <div class="ov-chart-wrap tall"><canvas id="ovMomChart"></canvas></div>
+        </div>
+      </div>
+
+      <div class="ov-grid3">
+        <div class="ov-panel">
+          <h3>Sales by brand</h3>
+          <div class="ov-psub">Share of total sales</div>
+          <div class="ov-chart-wrap"><canvas id="ovBrandChart"></canvas></div>
+          <ul class="ov-legend" id="ovBrandLegend"></ul>
+        </div>
+        <div class="ov-panel">
+          <h3>Sales by order type</h3>
+          <div class="ov-psub">Dine in / Pickup / Deliveroo</div>
+          <div class="ov-chart-wrap"><canvas id="ovOrderTypeChart"></canvas></div>
+          <ul class="ov-legend" id="ovOrderTypeLegend"></ul>
+        </div>
+        <div class="ov-panel">
+          <h3>Discounts over time</h3>
+          <div class="ov-psub">Total discounts given per day</div>
+          <div class="ov-chart-wrap"><canvas id="ovDiscountChart"></canvas></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="ov-footer">Data pulled live from the connected Google Sheet · NAMA YOSO</div>
+  </div>
+</div>
 
 <script>
 /* ---------------- CONFIG ---------------- */
@@ -537,9 +748,47 @@ document.getElementById('reportDate').valueAsDate = new Date();
 
 recalcAll();
 
-/* ---------------- MONTHLY TAB (placeholder behavior) ---------------- */
-document.getElementById('monthlyTabBtn').addEventListener('click', () => {
-  alert('Monthly total view: open this form\'s connected Google Sheet to see all saved days aggregated by month.');
+/* ---------------- TAB SWITCHING ---------------- */
+const tabDaily = document.getElementById('tabDaily');
+const tabMonthly = document.getElementById('tabMonthly');
+const tabOverview = document.getElementById('tabOverview');
+const pageDaily = document.getElementById('page-daily');
+const pageOverview = document.getElementById('page-overview');
+const dailyFooterActions = document.getElementById('dailyFooterActions');
+const statusMsgEl = document.getElementById('statusMsg');
+const pdfBtnEl = document.getElementById('pdfBtn');
+
+function setActiveTab(tab){
+  [tabDaily, tabMonthly, tabOverview].forEach(b => b.classList.remove('active'));
+  tab.classList.add('active');
+}
+
+function showDailyPage(){
+  setActiveTab(tabDaily);
+  document.body.style.background = '';
+  pageOverview.style.display = 'none';
+  document.getElementById('reportRoot').style.display = '';
+  dailyFooterActions.style.display = 'flex';
+  statusMsgEl.style.display = 'block';
+  pdfBtnEl.style.display = 'block';
+}
+
+function showOverviewPage(){
+  setActiveTab(tabOverview);
+  pageOverview.style.display = 'block';
+  document.getElementById('reportRoot').style.display = 'none';
+  dailyFooterActions.style.display = 'none';
+  statusMsgEl.style.display = 'none';
+  pdfBtnEl.style.display = 'none';
+  loadOverviewData();
+}
+
+tabDaily.addEventListener('click', showDailyPage);
+tabOverview.addEventListener('click', showOverviewPage);
+tabMonthly.addEventListener('click', () => {
+  showOverviewPage();
+  document.getElementById('ovRangeSelect').value = 'thisMonth';
+  document.getElementById('ovRangeSelect').dispatchEvent(new Event('change'));
 });
 
 /* ---------------- DATA COLLECTION ---------------- */
@@ -645,6 +894,362 @@ document.getElementById('pdfBtn').addEventListener('click', async () => {
     statusEl.textContent = original;
   }
 });
+
+/* ================= LIVE OVERVIEW PAGE LOGIC ================= */
+const BRAND_KEYS = [
+  {key:'brand0', fallback:'Nori'},
+  {key:'brand1', fallback:'Nama Yoso'},
+  {key:'brand2', fallback:'Not Junk'},
+  {key:'brand3', fallback:'Uso'},
+  {key:'brand4', fallback:'THG'},
+  {key:'brandOther', fallback:'Other'}
+];
+const BRAND_COLORS = ['#d4af6a','#3fa86b','#6f9bd1','#c97b5a','#9b7fc7','#6b7280'];
+const OT_COLORS = {dinein:'#d4af6a', pickup:'#3fa86b', deliveroo:'#6f9bd1'};
+
+let OV_ROWS = [];
+let ovCharts = {};
+let ovLoaded = false;
+
+function ovFmt(n){ return Math.round(n).toLocaleString('en-US'); }
+function ovFmt2(n){ return (Math.round((n+Number.EPSILON)*100)/100).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}); }
+
+async function loadOverviewData(forceReload){
+  if (ovLoaded && !forceReload){ renderOverview(); return; }
+
+  document.getElementById('ovLoading').style.display = 'block';
+  document.getElementById('ovContent').style.display = 'none';
+  document.getElementById('ovEmpty').style.display = 'none';
+
+  try {
+    const res = await fetch(`${SHEET_WEBHOOK_URL}?action=list`);
+    const json = await res.json();
+    if (json.status !== 'ok') throw new Error(json.message || 'Unknown error');
+    OV_ROWS = (json.rows || []).filter(r => r.date);
+    OV_ROWS.sort((a,b) => String(a.date).localeCompare(String(b.date)));
+    ovLoaded = true;
+    document.getElementById('ovLoading').style.display = 'none';
+    renderOverview();
+  } catch (err) {
+    console.error(err);
+    document.getElementById('ovLoading').innerHTML =
+      `Could not load live data from the Google Sheet.<br><span style="font-size:.78rem;">${err.message}</span>`;
+  }
+}
+
+document.getElementById('ovRefreshBtn').addEventListener('click', () => loadOverviewData(true));
+
+const ovRangeSelect = document.getElementById('ovRangeSelect');
+const ovCustomFrom = document.getElementById('ovCustomFrom');
+const ovCustomTo = document.getElementById('ovCustomTo');
+
+ovRangeSelect.addEventListener('change', () => {
+  const isCustom = ovRangeSelect.value === 'custom';
+  ovCustomFrom.style.display = isCustom ? 'inline-block' : 'none';
+  ovCustomTo.style.display = isCustom ? 'inline-block' : 'none';
+  if (!isCustom) renderOverview();
+});
+ovCustomFrom.addEventListener('change', renderOverview);
+ovCustomTo.addEventListener('change', renderOverview);
+
+function ovGetDateRange(){
+  const today = new Date();
+  const y = today.getFullYear(), m = today.getMonth();
+  let from, to;
+  switch(ovRangeSelect.value){
+    case 'thisMonth': from = new Date(y, m, 1); to = new Date(y, m+1, 0); break;
+    case 'lastMonth': from = new Date(y, m-1, 1); to = new Date(y, m, 0); break;
+    case 'last30': to = today; from = new Date(today.getTime() - 29*86400000); break;
+    case 'all': from = null; to = null; break;
+    case 'custom':
+      from = ovCustomFrom.value ? new Date(ovCustomFrom.value) : null;
+      to = ovCustomTo.value ? new Date(ovCustomTo.value) : null;
+      break;
+    default: from = new Date(y, m, 1); to = new Date(y, m+1, 0);
+  }
+  return {from, to};
+}
+
+function ovInRange(dateStr, from, to){
+  if (!from && !to) return true;
+  const d = new Date(dateStr);
+  if (from && d < from) return false;
+  if (to && d > new Date(to.getTime() + 86399999)) return false;
+  return true;
+}
+
+function ovDateLabel(from, to){
+  if (!from && !to) return 'all recorded days';
+  const opts = {month:'short', day:'numeric'};
+  const f = from ? from.toLocaleDateString('en-US', opts) : '…';
+  const t = to ? to.toLocaleDateString('en-US', opts) : '…';
+  return `${f} – ${t}`;
+}
+
+function renderOverview(){
+  const {from, to} = ovGetDateRange();
+  const rows = OV_ROWS.filter(r => ovInRange(r.date, from, to));
+
+  if (rows.length === 0){
+    document.getElementById('ovContent').style.display = 'none';
+    document.getElementById('ovEmpty').style.display = 'block';
+    return;
+  }
+  document.getElementById('ovEmpty').style.display = 'none';
+  document.getElementById('ovContent').style.display = 'block';
+
+  ovRenderKPIs(rows, from, to);
+  ovRenderInsights(rows, from, to);
+  ovRenderTrendChart(rows);
+  ovRenderMoMChart();
+  ovRenderBrandChart(rows);
+  ovRenderOrderTypeChart(rows);
+  ovRenderDiscountChart(rows);
+}
+
+function ovRenderKPIs(rows, from, to){
+  let totalSales = 0, totalCovers = 0, totalChecks = 0;
+  rows.forEach(r => {
+    totalSales += num(r.all_day_sales);
+    totalCovers += num(r.all_day_covers);
+    totalChecks += num(r.all_day_checks);
+  });
+  document.getElementById('ovKpiTotalSales').textContent = ovFmt(totalSales);
+  document.getElementById('ovKpiTotalCovers').textContent = ovFmt(totalCovers);
+  document.getElementById('ovKpiAvgCheck').textContent = ovFmt2(totalChecks > 0 ? totalSales/totalChecks : 0);
+  document.getElementById('ovKpiPeriodLabel').textContent = ovDateLabel(from, to);
+
+  const deltaEl = document.getElementById('ovKpiDeltaPct');
+  const deltaLabelEl = document.getElementById('ovKpiDeltaLabel');
+  if (from && to){
+    const spanMs = to.getTime() - from.getTime();
+    const prevTo = new Date(from.getTime() - 86400000);
+    const prevFrom = new Date(prevTo.getTime() - spanMs);
+    const prevRows = OV_ROWS.filter(r => ovInRange(r.date, prevFrom, prevTo));
+    const prevSales = prevRows.reduce((s,r) => s + num(r.all_day_sales), 0);
+    if (prevSales > 0){
+      const pct = ((totalSales - prevSales) / prevSales) * 100;
+      deltaEl.textContent = (pct >= 0 ? '+' : '') + pct.toFixed(1) + '%';
+      deltaEl.style.color = pct >= 0 ? 'var(--ov-green)' : 'var(--ov-red)';
+      deltaLabelEl.textContent = `prev. period: ${ovFmt(prevSales)}`;
+    } else {
+      deltaEl.textContent = '—'; deltaEl.style.color = ''; deltaLabelEl.textContent = 'no prior data';
+    }
+  } else {
+    deltaEl.textContent = '—'; deltaEl.style.color = ''; deltaLabelEl.textContent = 'select a range to compare';
+  }
+}
+
+/* ---- AI-style insight generation (rule-based analysis of the period's numbers) ---- */
+function ovRenderInsights(rows, from, to){
+  const list = document.getElementById('ovInsightsList');
+  const insights = [];
+
+  // Best / worst day
+  if (rows.length >= 2){
+    let best = rows[0], worst = rows[0];
+    rows.forEach(r => {
+      if (num(r.all_day_sales) > num(best.all_day_sales)) best = r;
+      if (num(r.all_day_sales) < num(worst.all_day_sales)) worst = r;
+    });
+    insights.push({
+      type:'good',
+      html:`Best day: <b>${best.date}</b> with sales of <b>${ovFmt(num(best.all_day_sales))}</b>.`
+    });
+    insights.push({
+      type:'warn',
+      html:`Slowest day: <b>${worst.date}</b> at <b>${ovFmt(num(worst.all_day_sales))}</b> in sales.`
+    });
+  }
+
+  // Trend direction (first half vs second half of period)
+  if (rows.length >= 4){
+    const mid = Math.floor(rows.length / 2);
+    const firstHalf = rows.slice(0, mid).reduce((s,r) => s + num(r.all_day_sales), 0) / mid;
+    const secondHalf = rows.slice(mid).reduce((s,r) => s + num(r.all_day_sales), 0) / (rows.length - mid);
+    if (firstHalf > 0){
+      const change = ((secondHalf - firstHalf) / firstHalf) * 100;
+      if (Math.abs(change) >= 5){
+        insights.push({
+          type: change >= 0 ? 'good' : 'warn',
+          html:`Average daily sales are <b>${change >= 0 ? 'up' : 'down'} ${Math.abs(change).toFixed(0)}%</b> in the second half of this period vs. the first half.`
+        });
+      }
+    }
+  }
+
+  // Biggest brand mover (compare this period vs immediately preceding period of same length)
+  if (from && to){
+    const spanMs = to.getTime() - from.getTime();
+    const prevTo = new Date(from.getTime() - 86400000);
+    const prevFrom = new Date(prevTo.getTime() - spanMs);
+    const prevRows = OV_ROWS.filter(r => ovInRange(r.date, prevFrom, prevTo));
+
+    if (prevRows.length > 0){
+      let biggestMoverName = null, biggestMoverPct = 0, biggestMoverUp = true;
+      BRAND_KEYS.forEach(b => {
+        const cur = rows.reduce((s,r) => s + num(r[`${b.key}_food`]) + num(r[`${b.key}_drinks`]) + num(r[`${b.key}_desserts`]), 0);
+        const prev = prevRows.reduce((s,r) => s + num(r[`${b.key}_food`]) + num(r[`${b.key}_drinks`]) + num(r[`${b.key}_desserts`]), 0);
+        if (prev >= 50){ // ignore noise from near-zero bases
+          const pct = ((cur - prev) / prev) * 100;
+          if (Math.abs(pct) > Math.abs(biggestMoverPct)){
+            biggestMoverPct = pct;
+            biggestMoverUp = pct >= 0;
+            biggestMoverName = b.key === 'brandOther'
+              ? (rows.find(r=>r.brandOther_name)?.brandOther_name || 'Other brand')
+              : b.fallback;
+          }
+        }
+      });
+      if (biggestMoverName && Math.abs(biggestMoverPct) >= 8){
+        insights.push({
+          type: biggestMoverUp ? 'good' : 'warn',
+          html:`<b>${biggestMoverName}</b> sales ${biggestMoverUp ? 'grew' : 'fell'} <b>${Math.abs(biggestMoverPct).toFixed(0)}%</b> vs. the previous period.`
+        });
+      }
+    }
+  }
+
+  // Order-type mix observation
+  const services = ['lunch','dinner','other'];
+  const types = ['dinein','pickup','deliveroo'];
+  const otTotals = {dinein:0, pickup:0, deliveroo:0};
+  rows.forEach(r => { services.forEach(s => { types.forEach(t => { otTotals[t] += num(r[`${s}_${t}_sales`]); }); }); });
+  const otGrand = otTotals.dinein + otTotals.pickup + otTotals.deliveroo;
+  if (otGrand > 0){
+    const deliveroSharePct = (otTotals.deliveroo / otGrand) * 100;
+    if (deliveroSharePct >= 30){
+      insights.push({ type:'info', html:`Deliveroo makes up <b>${deliveroSharePct.toFixed(0)}%</b> of total sales this period — a significant share of off-premise revenue.` });
+    }
+  }
+
+  // Discount level observation
+  const totalDiscounts = rows.reduce((s,r) => s + num(r.discount_total), 0);
+  const totalSalesAll = rows.reduce((s,r) => s + num(r.all_day_sales), 0);
+  if (totalSalesAll > 0 && totalDiscounts > 0){
+    const discPct = (totalDiscounts / totalSalesAll) * 100;
+    if (discPct >= 5){
+      insights.push({ type:'warn', html:`Discounts given total <b>${ovFmt(totalDiscounts)}</b>, or <b>${discPct.toFixed(1)}%</b> of gross sales this period.` });
+    }
+  }
+
+  // Complaints flag
+  const seriousComplaints = rows.filter(r => r.complaint_severity && r.complaint_severity !== 'None today').length;
+  if (seriousComplaints > 0){
+    insights.push({ type:'warn', html:`<b>${seriousComplaints}</b> day${seriousComplaints>1?'s':''} this period logged a guest complaint — worth a quick review.` });
+  }
+
+  if (insights.length === 0){
+    insights.push({ type:'info', html:'Not enough data in this period yet to surface trends. Check back as more days are saved.' });
+  }
+
+  const iconMap = {good:'✓', warn:'!', info:'i'};
+  list.innerHTML = insights.slice(0,6).map(ins => `
+    <li class="ov-insight-item">
+      <span class="ibadge ${ins.type}">${iconMap[ins.type]}</span>
+      <span>${ins.html}</span>
+    </li>
+  `).join('');
+}
+
+function ovDestroyChart(key){ if (ovCharts[key]){ ovCharts[key].destroy(); delete ovCharts[key]; } }
+
+function ovChartDefaults(){
+  return {
+    scales:{
+      x:{ ticks:{color:'#84a0c2', font:{size:10}}, grid:{color:'#1a3454'} },
+      y:{ ticks:{color:'#84a0c2', font:{size:10}}, grid:{color:'#1a3454'}, beginAtZero:true }
+    },
+    plugins:{ legend:{display:false} },
+    maintainAspectRatio:false,
+    responsive:true
+  };
+}
+
+function ovRenderTrendChart(rows){
+  ovDestroyChart('trend');
+  const labels = rows.map(r => r.date);
+  const data = rows.map(r => num(r.all_day_sales));
+  const ctx = document.getElementById('ovTrendChart').getContext('2d');
+  const grad = ctx.createLinearGradient(0,0,0,260);
+  grad.addColorStop(0, 'rgba(212,175,106,0.35)');
+  grad.addColorStop(1, 'rgba(212,175,106,0)');
+  ovCharts.trend = new Chart(ctx, {
+    type:'line',
+    data:{ labels, datasets:[{ data, borderColor:'#d4af6a', backgroundColor:grad, fill:true, tension:.3,
+      pointRadius:rows.length > 25 ? 0 : 3, pointBackgroundColor:'#d4af6a', borderWidth:2 }] },
+    options: ovChartDefaults()
+  });
+}
+
+function ovRenderMoMChart(){
+  ovDestroyChart('mom');
+  const today = new Date();
+  const y = today.getFullYear(), m = today.getMonth();
+  const thisStart = new Date(y, m, 1), thisEnd = new Date(y, m+1, 0);
+  const lastStart = new Date(y, m-1, 1), lastEnd = new Date(y, m, 0);
+  const thisTotal = OV_ROWS.filter(r => ovInRange(r.date, thisStart, thisEnd)).reduce((s,r) => s + num(r.all_day_sales), 0);
+  const lastTotal = OV_ROWS.filter(r => ovInRange(r.date, lastStart, lastEnd)).reduce((s,r) => s + num(r.all_day_sales), 0);
+  const lastLabel = lastStart.toLocaleDateString('en-US', {month:'long'});
+  const thisLabel = thisStart.toLocaleDateString('en-US', {month:'long'});
+  const ctx = document.getElementById('ovMomChart').getContext('2d');
+  ovCharts.mom = new Chart(ctx, {
+    type:'bar',
+    data:{ labels:[lastLabel, thisLabel], datasets:[{ data:[lastTotal, thisTotal], backgroundColor:['#26496f','#d4af6a'], borderRadius:6, maxBarThickness:70 }] },
+    options:{ ...ovChartDefaults() }
+  });
+}
+
+function ovRenderBrandChart(rows){
+  ovDestroyChart('brand');
+  const totals = BRAND_KEYS.map(b => rows.reduce((s,r) => s + num(r[`${b.key}_food`]) + num(r[`${b.key}_drinks`]) + num(r[`${b.key}_desserts`]), 0));
+  const names = BRAND_KEYS.map(b => b.key === 'brandOther' ? (rows.find(r=>r.brandOther_name)?.brandOther_name || b.fallback) : b.fallback);
+  const grandTotal = totals.reduce((a,b)=>a+b,0);
+  const ctx = document.getElementById('ovBrandChart').getContext('2d');
+  ovCharts.brand = new Chart(ctx, {
+    type:'doughnut',
+    data:{ labels:names, datasets:[{ data:totals, backgroundColor:BRAND_COLORS, borderColor:'#102844', borderWidth:2 }] },
+    options:{ plugins:{legend:{display:false}}, maintainAspectRatio:false, responsive:true, cutout:'62%' }
+  });
+  document.getElementById('ovBrandLegend').innerHTML = names.map((n,i) => {
+    const pct = grandTotal > 0 ? ((totals[i]/grandTotal)*100).toFixed(0) : 0;
+    return `<li><span class="ln"><span class="dot2" style="background:${BRAND_COLORS[i]}"></span>${n}</span><span class="lv">${ovFmt(totals[i])} <span style="color:var(--ov-muted);font-weight:400;">(${pct}%)</span></span></li>`;
+  }).join('');
+}
+
+function ovRenderOrderTypeChart(rows){
+  ovDestroyChart('ot');
+  const services = ['lunch','dinner','other'];
+  const types = ['dinein','pickup','deliveroo'];
+  const totals = {dinein:0, pickup:0, deliveroo:0};
+  rows.forEach(r => { services.forEach(s => { types.forEach(t => { totals[t] += num(r[`${s}_${t}_sales`]); }); }); });
+  const labels = ['Dine in','Pickup','Deliveroo'];
+  const data = [totals.dinein, totals.pickup, totals.deliveroo];
+  const colors = [OT_COLORS.dinein, OT_COLORS.pickup, OT_COLORS.deliveroo];
+  const grandTotal = data.reduce((a,b)=>a+b,0);
+  const ctx = document.getElementById('ovOrderTypeChart').getContext('2d');
+  ovCharts.ot = new Chart(ctx, {
+    type:'doughnut',
+    data:{ labels, datasets:[{ data, backgroundColor:colors, borderColor:'#102844', borderWidth:2 }] },
+    options:{ plugins:{legend:{display:false}}, maintainAspectRatio:false, responsive:true, cutout:'62%' }
+  });
+  document.getElementById('ovOrderTypeLegend').innerHTML = labels.map((n,i) => {
+    const pct = grandTotal > 0 ? ((data[i]/grandTotal)*100).toFixed(0) : 0;
+    return `<li><span class="ln"><span class="dot2" style="background:${colors[i]}"></span>${n}</span><span class="lv">${ovFmt(data[i])} <span style="color:var(--ov-muted);font-weight:400;">(${pct}%)</span></span></li>`;
+  }).join('');
+}
+
+function ovRenderDiscountChart(rows){
+  ovDestroyChart('disc');
+  const labels = rows.map(r => r.date);
+  const data = rows.map(r => num(r.discount_total));
+  const ctx = document.getElementById('ovDiscountChart').getContext('2d');
+  ovCharts.disc = new Chart(ctx, {
+    type:'bar',
+    data:{ labels, datasets:[{ data, backgroundColor:'#d4675c', borderRadius:4, maxBarThickness:24 }] },
+    options: ovChartDefaults()
+  });
+}
 </script>
 </body>
 </html>
