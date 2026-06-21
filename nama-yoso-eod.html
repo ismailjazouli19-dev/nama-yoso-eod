@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>End of Day Report — NAMA YOSO</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  :root{
+    --navy:#0f2942;
+    --navy-light:#173a5e;
+    --gold:#c9a35c;
+    --cream:#faf8f4;
+    --panel:#f6f3ee;
+    --line:#e3ddd0;
+    --ink:#1c2128;
+    --muted:#6b7280;
+    --green:#1f6e43;
+    --red:#a3322a;
+    --amber:#b5832e;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    padding-bottom:48px;
+  }
+  .wrap{max-width:760px;margin:0 auto;}
+
+  header.topbar{
+    background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);
+    color:#fff;
+    padding:22px 20px 18px;
+    border-bottom:3px solid var(--gold);
+  }
+  header.topbar h1{margin:0;font-size:1.3rem;font-weight:700;letter-spacing:.2px;}
+  header.topbar p{margin:2px 0 0;font-size:.78rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);font-weight:600;}
+
+  .tabbar{display:flex;background:var(--navy);}
+  .tabbar button{
+    flex:1;padding:13px 10px;background:transparent;border:none;color:#9fb3c8;
+    font-size:.85rem;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;
+  }
+  .tabbar button.active{color:#fff;border-bottom-color:var(--gold);}
+
+  .field-row{padding:16px 20px 4px;}
+  .field-row label{display:block;font-size:.78rem;color:var(--muted);margin-bottom:6px;font-weight:600;}
+  .field-row input[type=date]{
+    width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;
+    font-size:1rem;background:#fff;color:var(--ink);
+  }
+
+  section.card{
+    background:#fff;margin:14px 12px;border-radius:var(--radius);
+    border:1px solid var(--line);overflow:hidden;
+  }
+  section.card > .card-head{
+    padding:14px 18px 10px;display:flex;align-items:center;justify-content:space-between;gap:10px;
+    border-bottom:1px solid var(--line);
+  }
+  .card-head .title-block{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;}
+  .card-head h2{margin:0;font-size:.98rem;font-weight:700;}
+  .card-head .sub{font-size:.76rem;color:var(--muted);display:block;margin-top:2px;}
+  .badge-required{
+    background:#fdf2da;color:var(--amber);font-size:.68rem;font-weight:700;
+    padding:3px 9px;border-radius:20px;letter-spacing:.5px;text-transform:uppercase;white-space:nowrap;
+  }
+  .card-body{padding:14px 18px 18px;}
+
+  .service-block{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin-bottom:14px;}
+  .service-block:last-child{margin-bottom:0;}
+  .service-block-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;}
+  .service-block-head h3{margin:0;font-size:.88rem;font-weight:700;}
+  .service-block-head .stot{font-size:.88rem;font-weight:700;color:var(--navy);}
+
+  .order-type{margin-bottom:14px;}
+  .order-type:last-child{margin-bottom:0;}
+  .order-type .ot-label{font-size:.72rem;font-weight:700;letter-spacing:1.2px;color:var(--navy-light);text-transform:uppercase;margin-bottom:8px;}
+  .ot-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+  .ot-grid .f label{display:block;font-size:.72rem;color:var(--muted);margin-bottom:4px;}
+  .ot-grid input{
+    width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:6px;
+    font-size:.92rem;background:#fff;
+  }
+  .ot-grid input:focus{outline:2px solid var(--gold);outline-offset:1px;border-color:var(--gold);}
+  .ot-meta{display:flex;justify-content:space-between;font-size:.74rem;color:var(--muted);margin-top:7px;}
+  .ot-meta span:last-child{color:var(--navy-light);font-weight:600;}
+
+  .summary-box{
+    margin-top:14px;background:#fbf6e9;border:1px solid #e9d9ad;border-radius:8px;padding:14px 16px;
+  }
+  .summary-box h4{margin:0 0 10px;font-size:.8rem;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:1px;}
+  .summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;}
+  .summary-grid .s-label{font-size:.74rem;color:var(--muted);}
+  .summary-grid .s-val{font-size:1.05rem;font-weight:700;color:var(--navy);}
+
+  .ordertype-summary-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:.86rem;}
+  .ordertype-summary-row:last-child{border-bottom:none;}
+  .ordertype-summary-row .otn{font-weight:700;}
+  .ordertype-summary-row .otv{color:var(--muted);font-size:.8rem;}
+
+  .brand-block{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin-bottom:12px;}
+  .brand-block:last-child{margin-bottom:0;}
+  .brand-block h3{margin:0 0 10px;font-size:.88rem;font-weight:700;}
+  .brand-block input.brand-name{
+    width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:6px;font-size:.92rem;
+    margin-bottom:10px;background:#fff;font-weight:600;
+  }
+  .brand-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+  .brand-grid .f label{display:block;font-size:.72rem;color:var(--muted);margin-bottom:4px;}
+  .brand-grid input{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:6px;font-size:.92rem;background:#fff;}
+  .brand-total{text-align:right;font-size:.8rem;font-weight:700;color:var(--navy);margin-top:8px;}
+
+  .balance-box{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px 16px;margin-top:6px;}
+  .balance-row{display:flex;justify-content:space-between;font-size:.84rem;padding:3px 0;}
+  .balance-row .bv{font-weight:700;}
+  .balance-note{font-size:.76rem;color:var(--muted);margin-top:6px;font-style:italic;}
+  .balance-ok{color:var(--green) !important;}
+  .balance-bad{color:var(--red) !important;}
+
+  .discount-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px;padding-top:4px;}
+  .discount-grid .f label{display:block;font-size:.76rem;color:var(--muted);margin-bottom:5px;}
+  .discount-grid input{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:6px;font-size:.92rem;background:#fff;}
+  .discount-total{display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding-top:12px;border-top:1px solid var(--line);font-size:.92rem;font-weight:700;}
+
+  .field-block{padding-top:4px;}
+  .field-block label{display:block;font-size:.78rem;color:var(--muted);font-weight:600;margin-bottom:6px;}
+  select{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:6px;font-size:.92rem;background:#fff;color:var(--ink);}
+  textarea{
+    width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;font-size:.92rem;
+    font-family:inherit;resize:vertical;min-height:80px;background:#fff;color:var(--ink);
+  }
+  textarea::placeholder, input::placeholder{color:#a7adb5;}
+  .field-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+
+  .footer-actions{
+    position:sticky;bottom:0;background:var(--navy);padding:14px 16px;
+    display:flex;gap:10px;align-items:center;border-top:3px solid var(--gold);
+  }
+  .btn-save{
+    flex:1;background:var(--gold);color:var(--navy);border:none;border-radius:8px;
+    padding:13px;font-size:.95rem;font-weight:700;cursor:pointer;
+  }
+  .btn-save:active{transform:scale(0.99);}
+  .btn-save:disabled{opacity:.6;cursor:wait;}
+  .link-pdf{
+    text-align:center;color:var(--gold);font-size:.82rem;padding:12px 0 2px;cursor:pointer;
+    text-decoration:underline;
+  }
+  .status-msg{
+    text-align:center;font-size:.8rem;padding:8px 16px 0;color:var(--muted);min-height:20px;
+  }
+  .status-msg.ok{color:var(--green);font-weight:600;}
+  .status-msg.err{color:var(--red);font-weight:600;}
+
+  @media (max-width:480px){
+    .ot-grid, .brand-grid{grid-template-columns:1fr;}
+    .summary-grid, .discount-grid, .field-pair{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap" id="reportRoot">
+
+  <header class="topbar">
+    <h1>End of day report</h1>
+    <p>Nama Yoso</p>
+  </header>
+
+  <div class="tabbar">
+    <button class="active" type="button">Daily entry</button>
+    <button type="button" id="monthlyTabBtn">Monthly total</button>
+  </div>
+
+  <div class="field-row">
+    <label for="reportDate">Date</label>
+    <input type="date" id="reportDate">
+  </div>
+
+  <!-- SERVICE SALES -->
+  <section class="card">
+    <div class="card-head">
+      <div class="title-block">
+        <h2>Service sales</h2>
+      </div>
+      <span class="badge-required">required</span>
+    </div>
+    <div class="card-body">
+      <p class="sub" style="margin:-6px 0 14px;">Sales, covers and checks per order type</p>
+
+      <div id="servicesContainer"></div>
+
+      <div class="summary-box">
+        <h4>All day (auto)</h4>
+        <div class="summary-grid">
+          <div><div class="s-label">Total sales</div><div class="s-val" id="allDaySales">0.00</div></div>
+          <div><div class="s-label">Total covers</div><div class="s-val" id="allDayCovers">0</div></div>
+          <div><div class="s-label">Total checks</div><div class="s-val" id="allDayChecks">0</div></div>
+          <div><div class="s-label">Avg spend / check</div><div class="s-val" id="allDayAvgCheck">0.00</div></div>
+          <div><div class="s-label">Avg spend / cover</div><div class="s-val" id="allDayAvgCover">0.00</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BY ORDER TYPE -->
+  <section class="card">
+    <div class="card-head">
+      <div class="title-block">
+        <h2>By order type (auto)</h2>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="sub" style="margin:-6px 0 8px;">Totalled across all services</p>
+      <div id="orderTypeSummary"></div>
+    </div>
+  </section>
+
+  <!-- BRAND SALES -->
+  <section class="card">
+    <div class="card-head">
+      <div class="title-block">
+        <h2>🍽 Sales by brand</h2>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="sub" style="margin:-6px 0 14px;">Food, drinks and desserts per brand</p>
+      <div id="brandsContainer"></div>
+
+      <div class="balance-box">
+        <div class="balance-row"><span>Brand totals</span><span class="bv" id="brandTotalsSum">0.00</span></div>
+        <div class="balance-row"><span>All day sales</span><span class="bv" id="brandAllDayRef1">0.00</span></div>
+        <div class="balance-note" id="brandBalanceNote1">Enter sales to check balance</div>
+      </div>
+
+      <div class="balance-box" style="margin-top:10px;">
+        <div class="balance-row"><span>Food + drinks + desserts</span><span class="bv" id="brandCategorySum">0.00</span></div>
+        <div class="balance-row"><span>All day sales</span><span class="bv" id="brandAllDayRef2">0.00</span></div>
+        <div class="balance-note" id="brandBalanceNote2">Enter sales to check balance</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DISCOUNTS -->
+  <section class="card">
+    <div class="card-head">
+      <div class="title-block"><h2>Discounts given</h2></div>
+    </div>
+    <div class="card-body">
+      <div class="discount-grid" id="discountsGrid"></div>
+      <div class="discount-total"><span>Total discounts</span><span id="discountTotal">0.00</span></div>
+    </div>
+  </section>
+
+  <!-- GUEST FEEDBACK -->
+  <section class="card">
+    <div class="card-head"><div class="title-block"><h2>★ Guest feedback</h2></div></div>
+    <div class="card-body">
+      <div class="field-pair">
+        <div class="field-block">
+          <label for="feedbackRating">Overall rating</label>
+          <select id="feedbackRating">
+            <option value="">Select</option>
+            <option value="5">★★★★★ Excellent</option>
+            <option value="4">★★★★ Good</option>
+            <option value="3">★★★ Average</option>
+            <option value="2">★★ Below average</option>
+            <option value="1">★ Poor</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-block">
+        <label for="feedbackNotes">Feedback notes</label>
+        <textarea id="feedbackNotes" placeholder="What guests said today"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- GUEST COMPLAINTS -->
+  <section class="card">
+    <div class="card-head"><div class="title-block"><h2>⚠ Guest complaints</h2></div></div>
+    <div class="card-body">
+      <div class="field-pair">
+        <div class="field-block">
+          <label for="complaintSeverity">Severity</label>
+          <select id="complaintSeverity">
+            <option value="None today">None today</option>
+            <option value="Minor">Minor</option>
+            <option value="Moderate">Moderate</option>
+            <option value="Serious">Serious</option>
+          </select>
+        </div>
+        <div class="field-block">
+          <label for="complaintStatus">Status</label>
+          <select id="complaintStatus">
+            <option value="-">-</option>
+            <option value="Resolved">Resolved</option>
+            <option value="Pending">Pending</option>
+            <option value="Escalated">Escalated</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-block">
+        <label for="complaintDetails">Complaint details &amp; action taken</label>
+        <textarea id="complaintDetails" placeholder="What happened and how it was handled"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- OPERATIONAL NOTES -->
+  <section class="card">
+    <div class="card-head"><div class="title-block"><h2>📋 Operational notes</h2></div></div>
+    <div class="card-body">
+      <textarea id="operationalNotes" placeholder="MOD, staffing, equipment, anything worth flagging"></textarea>
+    </div>
+  </section>
+
+</div>
+
+<div class="footer-actions">
+  <button class="btn-save" id="saveBtn" type="button">💾 Save day</button>
+</div>
+<div class="status-msg" id="statusMsg"></div>
+<div class="link-pdf" id="pdfBtn">⬇ Download day as PDF</div>
+
+<script>
+/* ---------------- CONFIG ---------------- */
+const SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbyYaHm9oHYnJd5Cm0OOlWUQ63w2TftAgZuOOdwEiA370XQcGzVC7QdASbOtboYJMHsBDQ/exec";
+
+const SERVICES = ["Lunch","Dinner","Other"];
+const ORDER_TYPES = ["Dine in","Pickup","Deliveroo"];
+const BRANDS = ["Nori","Nama Yoso","Not Junk","Uso","THG"];
+const DISCOUNT_FIELDS = [
+  {id:"service_recovery", label:"Service recovery"},
+  {id:"good_will", label:"Good will"},
+  {id:"photoshoot", label:"Photoshoot"},
+  {id:"business_dev_100", label:"Business dev. 100%"},
+  {id:"emirates_platinum_25", label:"Emirates Platinum 25%"},
+  {id:"pr_marketing_100", label:"PR & Marketing 100%"},
+  {id:"nama_yoso_staff_20", label:"Nama Yoso staff 20%"},
+  {id:"nama_yoso_staff_50", label:"Nama Yoso staff 50%"}
+];
+
+function fmt(n){ return (Math.round((n + Number.EPSILON) * 100) / 100).toFixed(2); }
+function num(v){ const n = parseFloat(v); return isNaN(n) ? 0 : n; }
+function intNum(v){ const n = parseInt(v,10); return isNaN(n) ? 0 : n; }
+
+/* ---------------- BUILD: SERVICE SALES ---------------- */
+const servicesContainer = document.getElementById('servicesContainer');
+
+SERVICES.forEach(service => {
+  const key = service.toLowerCase();
+  const block = document.createElement('div');
+  block.className = 'service-block';
+  block.innerHTML = `
+    <div class="service-block-head">
+      <h3>${service}</h3>
+      <span class="stot" id="svc_${key}_total">0.00</span>
+    </div>
+    ${ORDER_TYPES.map(ot => {
+      const otKey = ot.toLowerCase().replace(' ','');
+      const id = `${key}_${otKey}`;
+      return `
+        <div class="order-type">
+          <div class="ot-label">${ot}</div>
+          <div class="ot-grid">
+            <div class="f"><label>Sales</label><input type="number" step="0.01" min="0" inputmode="decimal" id="${id}_sales" placeholder="0.00" data-role="sales" data-service="${key}" data-ot="${otKey}"></div>
+            <div class="f"><label>Covers</label><input type="number" step="1" min="0" inputmode="numeric" id="${id}_covers" placeholder="0" data-role="covers" data-service="${key}" data-ot="${otKey}"></div>
+            <div class="f"><label>Checks</label><input type="number" step="1" min="0" inputmode="numeric" id="${id}_checks" placeholder="0" data-role="checks" data-service="${key}" data-ot="${otKey}"></div>
+          </div>
+          <div class="ot-meta">
+            <span>Avg / check: <span id="${id}_avgcheck">0.00</span></span>
+            <span>Avg / cover: <span id="${id}_avgcover">0.00</span></span>
+          </div>
+        </div>`;
+    }).join('')}
+  `;
+  servicesContainer.appendChild(block);
+});
+
+/* ---------------- BUILD: ORDER TYPE SUMMARY ---------------- */
+const orderTypeSummary = document.getElementById('orderTypeSummary');
+ORDER_TYPES.forEach(ot => {
+  const otKey = ot.toLowerCase().replace(' ','');
+  const row = document.createElement('div');
+  row.className = 'ordertype-summary-row';
+  row.innerHTML = `
+    <span class="otn">${ot}</span>
+    <span class="otv" id="otsum_${otKey}">0.00 · avg/check 0.00 · avg/cover 0.00</span>
+  `;
+  orderTypeSummary.appendChild(row);
+});
+
+/* ---------------- BUILD: BRANDS ---------------- */
+const brandsContainer = document.getElementById('brandsContainer');
+BRANDS.forEach((brand,i) => {
+  const key = `brand${i}`;
+  const block = document.createElement('div');
+  block.className = 'brand-block';
+  block.innerHTML = `
+    <h3>${brand}</h3>
+    <div class="brand-grid">
+      <div class="f"><label>Food</label><input type="number" step="0.01" min="0" inputmode="decimal" id="${key}_food" placeholder="0.00" data-brand="${key}"></div>
+      <div class="f"><label>Drinks</label><input type="number" step="0.01" min="0" inputmode="decimal" id="${key}_drinks" placeholder="0.00" data-brand="${key}"></div>
+      <div class="f"><label>Desserts</label><input type="number" step="0.01" min="0" inputmode="decimal" id="${key}_desserts" placeholder="0.00" data-brand="${key}"></div>
+    </div>
+    <div class="brand-total">Brand total: <span id="${key}_total">0.00</span></div>
+  `;
+  block.dataset.brandName = brand;
+  brandsContainer.appendChild(block);
+});
+// Other brand (custom name)
+const otherBlock = document.createElement('div');
+otherBlock.className = 'brand-block';
+otherBlock.innerHTML = `
+  <h3>Other brand</h3>
+  <input type="text" class="brand-name" id="brandOther_name" placeholder="Brand name">
+  <div class="brand-grid">
+    <div class="f"><label>Food</label><input type="number" step="0.01" min="0" inputmode="decimal" id="brandOther_food" placeholder="0.00" data-brand="brandOther"></div>
+    <div class="f"><label>Drinks</label><input type="number" step="0.01" min="0" inputmode="decimal" id="brandOther_drinks" placeholder="0.00" data-brand="brandOther"></div>
+    <div class="f"><label>Desserts</label><input type="number" step="0.01" min="0" inputmode="decimal" id="brandOther_desserts" placeholder="0.00" data-brand="brandOther"></div>
+  </div>
+  <div class="brand-total">Brand total: <span id="brandOther_total">0.00</span></div>
+`;
+brandsContainer.appendChild(otherBlock);
+
+const ALL_BRAND_KEYS = [...BRANDS.map((_,i)=>`brand${i}`), 'brandOther'];
+
+/* ---------------- BUILD: DISCOUNTS ---------------- */
+const discountsGrid = document.getElementById('discountsGrid');
+DISCOUNT_FIELDS.forEach(d => {
+  const f = document.createElement('div');
+  f.className = 'f';
+  f.innerHTML = `<label for="disc_${d.id}">${d.label}</label><input type="number" step="0.01" min="0" inputmode="decimal" id="disc_${d.id}" placeholder="0.00">`;
+  discountsGrid.appendChild(f);
+});
+
+/* ---------------- CALCULATIONS ---------------- */
+function recalcAll(){
+  let dayTotalSales = 0, dayTotalCovers = 0, dayTotalChecks = 0;
+  const otTotals = {};
+  ORDER_TYPES.forEach(ot => { otTotals[ot.toLowerCase().replace(' ','')] = {sales:0, covers:0, checks:0}; });
+
+  SERVICES.forEach(service => {
+    const key = service.toLowerCase();
+    let svcTotal = 0;
+    ORDER_TYPES.forEach(ot => {
+      const otKey = ot.toLowerCase().replace(' ','');
+      const id = `${key}_${otKey}`;
+      const sales = num(document.getElementById(`${id}_sales`).value);
+      const covers = intNum(document.getElementById(`${id}_covers`).value);
+      const checks = intNum(document.getElementById(`${id}_checks`).value);
+
+      document.getElementById(`${id}_avgcheck`).textContent = fmt(checks > 0 ? sales/checks : 0);
+      document.getElementById(`${id}_avgcover`).textContent = fmt(covers > 0 ? sales/covers : 0);
+
+      svcTotal += sales;
+      dayTotalSales += sales;
+      dayTotalCovers += covers;
+      dayTotalChecks += checks;
+      otTotals[otKey].sales += sales;
+      otTotals[otKey].covers += covers;
+      otTotals[otKey].checks += checks;
+    });
+    document.getElementById(`svc_${key}_total`).textContent = fmt(svcTotal);
+  });
+
+  document.getElementById('allDaySales').textContent = fmt(dayTotalSales);
+  document.getElementById('allDayCovers').textContent = dayTotalCovers;
+  document.getElementById('allDayChecks').textContent = dayTotalChecks;
+  document.getElementById('allDayAvgCheck').textContent = fmt(dayTotalChecks > 0 ? dayTotalSales/dayTotalChecks : 0);
+  document.getElementById('allDayAvgCover').textContent = fmt(dayTotalCovers > 0 ? dayTotalSales/dayTotalCovers : 0);
+
+  ORDER_TYPES.forEach(ot => {
+    const otKey = ot.toLowerCase().replace(' ','');
+    const t = otTotals[otKey];
+    document.getElementById(`otsum_${otKey}`).textContent =
+      `${fmt(t.sales)} · avg/check ${fmt(t.checks>0?t.sales/t.checks:0)} · avg/cover ${fmt(t.covers>0?t.sales/t.covers:0)}`;
+  });
+
+  // Brands
+  let brandGrandTotal = 0, foodSum = 0, drinksSum = 0, dessertsSum = 0;
+  ALL_BRAND_KEYS.forEach(key => {
+    const f = num(document.getElementById(`${key}_food`).value);
+    const dr = num(document.getElementById(`${key}_drinks`).value);
+    const de = num(document.getElementById(`${key}_desserts`).value);
+    const t = f + dr + de;
+    document.getElementById(`${key}_total`).textContent = fmt(t);
+    brandGrandTotal += t;
+    foodSum += f; drinksSum += dr; dessertsSum += de;
+  });
+  const categorySum = foodSum + drinksSum + dessertsSum;
+
+  document.getElementById('brandTotalsSum').textContent = fmt(brandGrandTotal);
+  document.getElementById('brandAllDayRef1').textContent = fmt(dayTotalSales);
+  document.getElementById('brandCategorySum').textContent = fmt(categorySum);
+  document.getElementById('brandAllDayRef2').textContent = fmt(dayTotalSales);
+
+  setBalanceNote('brandBalanceNote1', brandGrandTotal, dayTotalSales);
+  setBalanceNote('brandBalanceNote2', categorySum, dayTotalSales);
+
+  // Discounts
+  let discTotal = 0;
+  DISCOUNT_FIELDS.forEach(d => { discTotal += num(document.getElementById(`disc_${d.id}`).value); });
+  document.getElementById('discountTotal').textContent = fmt(discTotal);
+}
+
+function setBalanceNote(elId, a, b){
+  const el = document.getElementById(elId);
+  if (a === 0 && b === 0){
+    el.textContent = 'Enter sales to check balance';
+    el.className = 'balance-note';
+    return;
+  }
+  const diff = Math.abs(a - b);
+  if (diff < 0.01){
+    el.textContent = '✓ Balanced';
+    el.className = 'balance-note balance-ok';
+  } else {
+    el.textContent = `⚠ Off by ${fmt(diff)}`;
+    el.className = 'balance-note balance-bad';
+  }
+}
+
+document.addEventListener('input', (e) => {
+  if (e.target.tagName === 'INPUT' && e.target.type === 'number'){
+    recalcAll();
+  }
+});
+
+// Default date to today
+document.getElementById('reportDate').valueAsDate = new Date();
+
+recalcAll();
+
+/* ---------------- MONTHLY TAB (placeholder behavior) ---------------- */
+document.getElementById('monthlyTabBtn').addEventListener('click', () => {
+  alert('Monthly total view: open this form\'s connected Google Sheet to see all saved days aggregated by month.');
+});
+
+/* ---------------- DATA COLLECTION ---------------- */
+function collectData(){
+  const data = { date: document.getElementById('reportDate').value, savedAt: new Date().toISOString() };
+
+  SERVICES.forEach(service => {
+    const key = service.toLowerCase();
+    ORDER_TYPES.forEach(ot => {
+      const otKey = ot.toLowerCase().replace(' ','');
+      const id = `${key}_${otKey}`;
+      data[`${id}_sales`] = num(document.getElementById(`${id}_sales`).value);
+      data[`${id}_covers`] = intNum(document.getElementById(`${id}_covers`).value);
+      data[`${id}_checks`] = intNum(document.getElementById(`${id}_checks`).value);
+    });
+  });
+
+  data.all_day_sales = num(document.getElementById('allDaySales').textContent);
+  data.all_day_covers = intNum(document.getElementById('allDayCovers').textContent);
+  data.all_day_checks = intNum(document.getElementById('allDayChecks').textContent);
+
+  BRANDS.forEach((brand,i) => {
+    const key = `brand${i}`;
+    data[`${key}_name`] = brand;
+    data[`${key}_food`] = num(document.getElementById(`${key}_food`).value);
+    data[`${key}_drinks`] = num(document.getElementById(`${key}_drinks`).value);
+    data[`${key}_desserts`] = num(document.getElementById(`${key}_desserts`).value);
+  });
+  data.brandOther_name = document.getElementById('brandOther_name').value || '';
+  data.brandOther_food = num(document.getElementById('brandOther_food').value);
+  data.brandOther_drinks = num(document.getElementById('brandOther_drinks').value);
+  data.brandOther_desserts = num(document.getElementById('brandOther_desserts').value);
+
+  DISCOUNT_FIELDS.forEach(d => { data[`discount_${d.id}`] = num(document.getElementById(`disc_${d.id}`).value); });
+  data.discount_total = num(document.getElementById('discountTotal').textContent);
+
+  data.feedback_rating = document.getElementById('feedbackRating').value;
+  data.feedback_notes = document.getElementById('feedbackNotes').value;
+  data.complaint_severity = document.getElementById('complaintSeverity').value;
+  data.complaint_status = document.getElementById('complaintStatus').value;
+  data.complaint_details = document.getElementById('complaintDetails').value;
+  data.operational_notes = document.getElementById('operationalNotes').value;
+
+  return data;
+}
+
+/* ---------------- SAVE TO GOOGLE SHEET ---------------- */
+const saveBtn = document.getElementById('saveBtn');
+const statusMsg = document.getElementById('statusMsg');
+
+saveBtn.addEventListener('click', async () => {
+  if (!document.getElementById('reportDate').value){
+    statusMsg.textContent = 'Please set the date before saving.';
+    statusMsg.className = 'status-msg err';
+    return;
+  }
+
+  const payload = collectData();
+  saveBtn.disabled = true;
+  saveBtn.textContent = '💾 Saving…';
+  statusMsg.textContent = '';
+  statusMsg.className = 'status-msg';
+
+  try {
+    await fetch(SHEET_WEBHOOK_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(payload)
+    });
+    // no-cors means we can't read the response, so we assume success if no network error
+    statusMsg.textContent = '✓ Saved to Google Sheet';
+    statusMsg.className = 'status-msg ok';
+  } catch (err) {
+    console.error(err);
+    statusMsg.textContent = 'Could not reach the Google Sheet. Check your connection and try again.';
+    statusMsg.className = 'status-msg err';
+  } finally {
+    saveBtn.disabled = false;
+    saveBtn.textContent = '💾 Save day';
+  }
+});
+
+/* ---------------- PDF EXPORT ---------------- */
+document.getElementById('pdfBtn').addEventListener('click', async () => {
+  const root = document.getElementById('reportRoot');
+  const statusEl = document.getElementById('pdfBtn');
+  const original = statusEl.textContent;
+  statusEl.textContent = '⬇ Preparing PDF…';
+
+  try {
+    const canvas = await html2canvas(root, { scale: 2, backgroundColor: '#faf8f4' });
+    const imgData = canvas.toDataURL('image/png');
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF('p', 'pt', [canvas.width / 2, canvas.height / 2]);
+    pdf.addImage(imgData, 'PNG', 0, 0, canvas.width / 2, canvas.height / 2);
+    const dateVal = document.getElementById('reportDate').value || 'report';
+    pdf.save(`NamaYoso_EOD_${dateVal}.pdf`);
+  } catch (err) {
+    console.error(err);
+    alert('Could not generate the PDF. Please try again.');
+  } finally {
+    statusEl.textContent = original;
+  }
+});
+</script>
+</body>
+</html>
